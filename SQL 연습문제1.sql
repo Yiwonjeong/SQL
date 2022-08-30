@@ -106,7 +106,7 @@ where `name` like '김%';
 select `custid`,`name`,`hp`,`addr` from `Customer`
 where `name` like '__';
 
-# 실습 1-17 휴대폰 번호 공백 고객 조회
+# 실습 1-17 공백 조회
 select * from `Customer` 
 where `hp` is null;
 
@@ -114,3 +114,67 @@ where `hp` is null;
 select * from `Customer`
 where `addr` is not null;
 
+# 실습 1-19 내림차순
+select * from `Customer` order by `rdate` desc;
+
+# 실습 1-20 
+select * from `Order`
+where `orderCount` >= 3
+order by `orderCount`desc, `orderProduct` asc; 
+
+# 실습 1-21 평균
+select avg(price) from `Product`;
+
+# 실습 1-22 합계
+select sum(stock) as `재고량 합계`
+from `Product`
+where `company`='농심';
+
+# 실습 1-23 
+select count(`name`) as `고객 수`
+from `Customer`;
+
+# 실습 1-24 중복없이 종류 수 카운트
+select count(distinct `company`) as `제조업체 수`
+from `Product`;
+
+
+# 실습 1-25
+select `orderProduct` as `주문 상품번호`, sum(`orderCount`) as `총 주문수량`
+from `Order` 
+group by `orderProduct`
+order by `주문 상품번호` asc;
+
+# 실습 1-26
+select `company` as `제조업체`,
+count(*) as `제품수`, max(`price`) as `최고가`
+from `Product`
+group by `company`;
+
+# 실습 1-27
+select `company` as `제조업체`,
+count(*) as `제품수`, max(`price`) as `최고가`
+from `Product`
+group by `company`
+having  `제품수` >=2;
+
+# 실습 1-28
+select `orderProduct`, `orderid`, sum(`orderCount`) as `총 주문수량` 
+from `Order`
+group by `orderNo`;
+
+# 실습 1-29
+select a.orderid, b.prodName
+from `Order` as a 
+join `Product` as b
+on a.orderProduct = b.prodNo
+where `orderid` = 'c102';
+
+# 실습 1-30
+select `orderid`, `name`, `prodName`, `orderDate` 
+from `Order` as a
+join `Customer` as b
+on a.orderid = b.custid
+join `Product` as c
+on a. orderProduct = c.prodNo
+where `orderDate` = '2022-08-29';
